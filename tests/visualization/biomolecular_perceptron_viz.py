@@ -1,9 +1,9 @@
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 import matplotlib.pyplot as plt
-from src.models.biomolecular_perceptron import BiomolecularPerceptron
+from src.models.biomolecular_perceptron import BiomolecularPerceptron 
 
 # Define the parameters
 model = BiomolecularPerceptron(u=5, v=3, gamma=2, phi=0.5)

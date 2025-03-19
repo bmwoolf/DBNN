@@ -1,10 +1,10 @@
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 import numpy as np
 import matplotlib.pyplot as plt
-from src.models.biomolecular_perceptron import BiomolecularPerceptron, BiomolecularNeuralNetwork
+from src.models.biomolecular_perceptron import BiomolecularPerceptron, BiomolecularNeuralNetwork 
 
 def visualize_perceptron_dynamics(perceptron, z1_0, z2_0, ax, title):
     """Visualize the dynamics of a single perceptron"""
