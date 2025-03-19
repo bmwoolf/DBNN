@@ -55,21 +55,29 @@ class BiomolecularNeuralNetwork:
     def forward(self, inputs):
         """
         Forward pass through the network.
-        :param inputs: List of initial concentrations
+        :param inputs: List of initial concentrations [z1, z2]
         :return: List of outputs from the final layer
         """
         current_inputs = inputs
         
         # Process each layer
-        for layer in self.layers:
+        for i, layer in enumerate(self.layers):
             layer_outputs = []
             
             # Process each perceptron in the layer
             for perceptron in layer:
-                t, sol = perceptron.solve(z1_0=current_inputs[0], z2_0=current_inputs[1])
+                # For first layer, use inputs directly
+                if i == 0:
+                    t, sol = perceptron.solve(z1_0=inputs[0], z2_0=inputs[1])
+                else:
+                    # For subsequent layers, use previous layer's output as z1
+                    # and a default value (0) for z2
+                    t, sol = perceptron.solve(z1_0=current_inputs[0], z2_0=0)
+                
                 output = perceptron.activation(sol[0][-1])
                 layer_outputs.append(output)
             
+            # Update current_inputs for next layer
             current_inputs = layer_outputs
         
-        return current_inputs  # Final layer outputs
+        return layer_outputs
