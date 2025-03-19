@@ -47,24 +47,29 @@ class BiomolecularPerceptron:
 class BiomolecularNeuralNetwork:
     def __init__(self, layers):
         """
-        Initializes the multilayer biomolecular neural network with a list of layers.
-        :param layers: List of layers, each containing a list of BiomolecularPerceptron instances
+        Initialize a multi-layer biomolecular neural network.
+        :param layers: List of lists of BiomolecularPerceptron objects
         """
         self.layers = layers
     
     def forward(self, inputs):
         """
-        Processes inputs through the network layer by layer.
-        :param inputs: List of input values to the first layer 
-        :return: Final layer outputs
+        Forward pass through the network.
+        :param inputs: List of initial concentrations
+        :return: List of outputs from the final layer
         """
-        layer_inputs = inputs 
+        current_inputs = inputs
+        
+        # Process each layer
         for layer in self.layers:
             layer_outputs = []
+            
+            # Process each perceptron in the layer
             for perceptron in layer:
-                t, sol = perceptron.solve(z1_0=layer_inputs[0], z2_0=layer_inputs[1])
+                t, sol = perceptron.solve(z1_0=current_inputs[0], z2_0=current_inputs[1])
                 output = perceptron.activation(sol[0][-1])
                 layer_outputs.append(output)
-            # Pass outputs as inputs to next layer
-            layer_inputs = layer_outputs
-        return layer_outputs
+            
+            current_inputs = layer_outputs
+        
+        return current_inputs  # Final layer outputs
