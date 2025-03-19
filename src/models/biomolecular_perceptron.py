@@ -43,3 +43,20 @@ class BiomolecularPerceptron:
         :return: 1 if z1_final is above threshold, 0 otherwise
         """
         return 1 if z1_final >= self.threshold else 0
+
+class BiomolecularNeuralNetwork:
+    """
+    Processes inputs through the network layer by layer.
+    :param inputs: List of input values to the first layer 
+    :return: Final layer outputs
+    """
+    layer_inputs = inputs 
+    for layer in self.layers:
+        layer_outputs = []
+        for perceptron in layer:
+            t, sol = perceptron.solve(z1_0=layer_inputs[0], z2_0=layer_inputs[1])
+            output = perceptron.activation(sol[0][-1])
+            layer_outputs.append(output)
+        # Pass outputs as inputs to next layer
+        layer_inputs = layer_outputs
+    return layer_outputs
