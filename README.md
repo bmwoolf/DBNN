@@ -19,5 +19,15 @@ pip install -e .  # Install package in development mode for testing
 ## Testing
 
 ```bash
-pytest tests/biomolecular_perceptron.test.py
+# Run unit tests
+pytest tests/test_biomolecular_perceptron.py
+pytest tests/test_biomolecular_neural_network.py
+```
+
+## Visualization
+
+```bash
+# Run visualization scripts
+python tests/biomolecular_perceptron_viz.py
+python tests/biomolecular_neural_network_viz.py
 ```
