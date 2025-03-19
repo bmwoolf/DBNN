@@ -2,7 +2,7 @@ import numpy as np
 from scipy.integrate import solve_ivp
 
 class BiomolecularPerceptron:
-    def __init__(self, u, v, gamma, phi):
+    def __init__(self, u, v, gamma, phi, threshold=0):
         """
         Initializes the biomolecular perceptron parameters.
         :param u: Production rate of species Z1
@@ -14,7 +14,8 @@ class BiomolecularPerceptron:
         self.v = v
         self.gamma = gamma
         self.phi = phi
-        
+        self.threshold = threshold
+    
     def equations(self, t, z):
         z1, z2 = z
         dz1_dt = self.u - self.gamma * z1 * z2 - self.phi * z1
@@ -35,4 +36,10 @@ class BiomolecularPerceptron:
         sol = solve_ivp(self.equations, t_span, [z1_0, z2_0], t_eval=t_eval)
         return sol.t, sol.y
         
-        
+    def activation(self, z1_final):
+        """
+        Applies a ReLU-like activation function to determine the output of the perceptron.
+        :param z1_final: Final concentration of Z1
+        :return: 1 if z1_final is above threshold, 0 otherwise
+        """
+        return 1 if z1_final >= self.threshold else 0
