@@ -9,6 +9,7 @@ class BiomolecularPerceptron:
         :param v: Production rate of species Z2
         :param gamma: Titration rate (sequestration strength)
         :param phi: Decay rate
+        :param threshold: Activation threshold
         """
         self.u = u
         self.v = v
@@ -66,18 +67,27 @@ class BiomolecularNeuralNetwork:
             
             # Process each perceptron in the layer
             for perceptron in layer:
-                # For first layer, use inputs directly
                 if i == 0:
-                    t, sol = perceptron.solve(z1_0=inputs[0], z2_0=inputs[1])
+                    # First layer: use biomarker concentrations as inputs
+                    # Use input concentration as z1_0, zero for z2_0 to prevent spontaneous activation
+                    t, sol = perceptron.solve(z1_0=current_inputs[0], z2_0=0)
                 else:
-                    # For subsequent layers, use previous layer's output as z1
-                    # and a default value (0) for z2
+                    # Subsequent layers: use previous layer outputs
+                    # Use previous output as z1_0, zero for z2_0
                     t, sol = perceptron.solve(z1_0=current_inputs[0], z2_0=0)
                 
                 output = perceptron.activation(sol[0][-1])
                 layer_outputs.append(output)
             
-            # Update current_inputs for next layer
             current_inputs = layer_outputs
         
-        return layer_outputs
+        return current_inputs
+    
+    def classify_biosensor(self, biomarkers):
+        """
+        Classifies disease presence based on biomarker inputs.
+        :param biomarkers: List of biomarker concentrations 
+        :return: 1 if disease detected, 0 otherwise 
+        """
+        outputs = self.forward(biomarkers)
+        return outputs[0]  # Final layer has single output
