@@ -7,7 +7,7 @@ This is based on the paper [A Dynamical Biomolecular Neural Network](https://www
 
 This can be used by synthetic biologists designing genetic circuits, AI/ML researchers applying computational methods to biology, and biotech companies that are optimizing gene therapy and biosensors. 
 
-The example test cases rely on CAR T cell logic gates. 
+The example test cases rely on biosensors. 
 
 ## Installation
 
